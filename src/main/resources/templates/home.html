@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" href="favicon.ico" />
+
+<title>Triebi's Home System</title>
+
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	  <a class="navbar-brand" href="#">Navigation</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarColor01">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Music</a>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+	<br/>
+	<div class="container" th:if="${events.size()} > 0">
+		<div class="card text-white bg-primary mb-3" style="max-width: 40rem;">
+		  <div class="card-header">Upcoming Events</div>
+		  <div class="card-body">
+		    <h4 class="card-title">Month</h4>
+		    <table class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th scope="col">Event</th>
+			      <th scope="col">Date</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<tr class="table-info" th:each="event : ${events}">
+			  	  <th th:text="${event.summary}" scope="row"></th>
+                  <td th:if="${event.isFullDayEvent()} == true" th:text="${#calendars.format(event.startDate, 'dd.MM.yyyy')}"></td>
+                  <td th:if="${event.isFullDayEvent()} == false" th:text="${#calendars.format(event.startDate, 'dd.MM.yyyy HH:mm')}"></td>
+                </tr>
+			  </tbody>
+			</table> 
+		    <p class="card-text"><span th:text="${appName}">Our App</span></p>
+		  </div>
+		</div>
+	</div>
+	<div class="container" th:if="${facebookEvents.size()} > 0">
+		<div class="card text-white bg-primary mb-3" style="max-width: 40rem;">
+		  <div class="card-header">Upcoming Events</div>
+		  <div class="card-body">
+		    <h4 class="card-title">Month</h4>
+		    <table class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th scope="col">Event</th>
+			      <th scope="col">Date</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<tr class="table-info" th:each="event : ${facebookEvents}">
+			  	  <th th:text="${event.name}" scope="row"></th>
+                  <td th:text="${#calendars.format(event.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+                </tr>
+			  </tbody>
+			</table> 
+		    <p class="card-text"><span th:text="${appName}">Our App</span></p>
+		  </div>
+		</div>
+	</div>
+	
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
