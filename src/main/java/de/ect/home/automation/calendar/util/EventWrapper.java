@@ -1,4 +1,4 @@
-package de.ect.home.automation.util;
+package de.ect.home.automation.calendar.util;
 
 import java.util.Date;
 

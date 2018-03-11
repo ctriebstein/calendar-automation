@@ -1,4 +1,4 @@
-package de.ect.home.automation.google.calendar;
+package de.ect.home.automation.calendar;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,16 +28,16 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
-import de.ect.home.automation.util.EventWrapper;
+import de.ect.home.automation.calendar.util.EventWrapper;
 
 /**
  * provides all operations required to fetch data from a google calendar
  * 
  * @author ctr
  */
-public class CalendarEventService {
+public class GoogleCalendarEventService {
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CalendarEventService.class);
+			.getLogger(GoogleCalendarEventService.class);
 
 	/** Directory to store user credentials for this application. */
 	private static final java.io.File DATA_STORE_DIR = new java.io.File(
