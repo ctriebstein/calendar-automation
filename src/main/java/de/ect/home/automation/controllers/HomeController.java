@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import de.ect.home.automation.calendar.FacebookEventService;
 import de.ect.home.automation.calendar.GoogleCalendarEventService;
+import de.ect.home.automation.stocks.AlphavantageStockService;
 
 @Controller
 public class HomeController {
@@ -23,6 +24,9 @@ public class HomeController {
 
 	@Autowired
 	private FacebookEventService facebookEventService;
+	
+	@Autowired
+	private AlphavantageStockService stockService;
 
 	@Value("${spring.social.facebook.app-id}")
 	private String facebookAppId;
@@ -47,9 +51,10 @@ public class HomeController {
 			}
 
 			model.addAttribute("facebookEvents", facebookEventService.getFacebookEvents(facebook, c));
-			
-			
 		}
+		
+		model.addAttribute("stockData", stockService.getEquityValues());
+		
 		return "home";
 	}
 }

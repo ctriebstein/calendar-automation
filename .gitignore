@@ -47,6 +47,6 @@ nbdist/
 .nb-gradle/
 
 # application properties contain critical user specific information and is therefore ignored
-/src/main/resources/application.properties
+/src/main/resources/application-prod.properties
 # also user specific google calendar secret - is to be created by the user and will be ignored by git
 /src/main/resources/google-calendar/client_Secret.json
