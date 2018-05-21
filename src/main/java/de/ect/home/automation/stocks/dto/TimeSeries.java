@@ -8,18 +8,20 @@ public class TimeSeries {
 
 	@JsonProperty("1. open")
 	private double openingValue;
-	
+
 	@JsonProperty("2. high")
 	private double highValue;
-	
+
 	@JsonProperty("3. low")
 	private double lowValue;
-	
+
 	@JsonProperty("4. close")
 	private double closingValue;
-	
+
 	@JsonProperty("5. volume")
 	private long volume;
+
+	private String date;
 
 	public double getOpeningValue() {
 		return openingValue;
@@ -59,5 +61,13 @@ public class TimeSeries {
 
 	public void setVolume(long volume) {
 		this.volume = volume;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

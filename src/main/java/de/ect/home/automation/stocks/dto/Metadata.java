@@ -1,7 +1,5 @@
 package de.ect.home.automation.stocks.dto;
 
-import java.util.Calendar;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,7 +13,7 @@ public class Metadata {
 	private String symbol;
 	
 	@JsonProperty("3. Last Refreshed")
-	private Calendar lastRefreshed;
+	private String lastRefreshed;
 	
 	@JsonProperty("4. Output Size")
 	private String outputSize;
@@ -39,11 +37,11 @@ public class Metadata {
 		this.symbol = symbol;
 	}
 
-	public Calendar getLastRefreshed() {
+	public String getLastRefreshed() {
 		return lastRefreshed;
 	}
 
-	public void setLastRefreshed(Calendar lastRefreshed) {
+	public void setLastRefreshed(String lastRefreshed) {
 		this.lastRefreshed = lastRefreshed;
 	}
 
