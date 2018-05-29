@@ -12,6 +12,8 @@ This feature was initially implemented to fetch events from facebook groups. Fac
 
 ### Stock Market (Via Alpha Vantage API)
 
+### Music Services
+
 ## Raspberry PI 
 
 ### Configuration
