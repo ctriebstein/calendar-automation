@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.ect.home</groupId>
-	<artifactId>automation</artifactId>
+	<artifactId>commons</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<name>home-automation</name>
-	<description>Home automation systemt</description>
+	<name>commons</name>
+	<description>common classes for home automation projects</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,10 +17,15 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<modules>
-        <module>automation-ui</module>
-        <module>streaming-app</module>
-        <module>commons</module>
-    </modules>
+	<dependencies>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			
+		</plugins>
+	</build>
+
 
 </project>

@@ -89,6 +89,34 @@
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-ip</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>de.ect.home</groupId>
+			<artifactId>commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.goldmansachs</groupId>
+			<artifactId>gs-collections-api</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.googlecode.soundlibs</groupId>
+		    <artifactId>mp3spi</artifactId>
+		    <version>1.9.5-1</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.googlecode.soundlibs</groupId>
+		    <artifactId>jlayer</artifactId>
+		    <version>1.0.1.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.googlecode.soundlibs</groupId>
+		    <artifactId>soundlibs</artifactId>
+		    <version>1.4</version>
+		    <type>pom</type>
+		</dependency>
 	</dependencies>
 
 	<build>
