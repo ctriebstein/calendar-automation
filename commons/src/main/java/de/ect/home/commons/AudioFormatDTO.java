@@ -2,6 +2,8 @@ package de.ect.home.commons;
 
 import java.io.Serializable;
 
+import javax.sound.sampled.AudioFormat;
+
 public class AudioFormatDTO implements Serializable {
 
 	private static final long serialVersionUID = 4174376569579103450L;
@@ -67,5 +69,39 @@ public class AudioFormatDTO implements Serializable {
 
 	public void setBigEndian(boolean bigEndian) {
 		this.bigEndian = bigEndian;
+	}
+	
+	public AudioFormat toAudioFormat() {
+		return new AudioFormat(
+        		AudioFormat.Encoding.PCM_SIGNED, 
+        		this.getSampleRate(),
+        		this.getSampleSizeInBits(),
+        		this.getChannels(),
+        		this.getFrameSize(),
+        		this.getFrameRate(),
+        		this.isBigEndian());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof AudioFormatDTO)) {
+			return false;
+		}
+		
+		AudioFormatDTO format = (AudioFormatDTO) obj;
+		
+		boolean sameSampleRateAndSize = Math.round(format.getSampleRate()) == Math.round(this.getSampleRate()) && 
+				format.getSampleSizeInBits() == this.getSampleSizeInBits();
+		boolean sameFrameRateAndSize = format.getFrameSize() == this.getFrameSize() &&
+				Math.round(format.getFrameRate()) == Math.round(this.getFrameRate());
+		
+		return sameSampleRateAndSize && sameFrameRateAndSize &&
+				format.getChannels() == this.getChannels() &&
+				format.isBigEndian() == this.isBigEndian();
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 }
