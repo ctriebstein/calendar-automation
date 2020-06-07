@@ -12,6 +12,7 @@ import com.google.api.services.calendar.model.EventDateTime;
  */
 public class EventWrapper {
 
+	private String id;
 	private String summary;
 	private String description;
 	private Date startDate;
@@ -22,6 +23,8 @@ public class EventWrapper {
 		if (googleCalendarEvent == null) {
 			return;
 		}
+
+		this.id = googleCalendarEvent.getId();
 		this.summary = googleCalendarEvent.getSummary();
 		this.description = googleCalendarEvent.getDescription();
 
@@ -70,6 +73,10 @@ public class EventWrapper {
 		this.description = description;
 		this.startDate = startDate;
 		this.endDate = endDate;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getSummary() {

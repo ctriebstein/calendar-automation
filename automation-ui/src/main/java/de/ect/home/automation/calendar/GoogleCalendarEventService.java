@@ -1,18 +1,5 @@
 package de.ect.home.automation.calendar;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -26,9 +13,18 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
-
 import de.ect.home.automation.calendar.util.EventWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 
 /**
  * provides all operations required to fetch data from a google calendar
@@ -36,23 +32,21 @@ import de.ect.home.automation.calendar.util.EventWrapper;
  * @author ctr
  */
 public class GoogleCalendarEventService {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GoogleCalendarEventService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GoogleCalendarEventService.class);
 
 	/** Directory to store user credentials for this application. */
-	private static final java.io.File DATA_STORE_DIR = new java.io.File(
-			System.getProperty("user.home"),
-			".credentials/calendar-java-quickstart");
+	private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"),".credentials/calendar-java-quickstart");
 
 	/** Global instance of the {@link FileDataStoreFactory}. */
 	private static FileDataStoreFactory DATA_STORE_FACTORY;
 
 	/** Global instance of the JSON factory. */
-	private static final JsonFactory JSON_FACTORY = JacksonFactory
-			.getDefaultInstance();
+	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
 	/** Global instance of the HTTP transport. */
 	private static HttpTransport HTTP_TRANSPORT;
+
+	private static final String PRIMARY_CALENDAR = "primary";
 
 	/**
 	 * Global instance of the scopes required by this quickstart.
@@ -60,8 +54,7 @@ public class GoogleCalendarEventService {
 	 * If modifying these scopes, delete your previously saved credentials at
 	 * ~/.credentials/calendar-java-quickstart
 	 */
-	private static final List<String> SCOPES = Arrays
-			.asList(CalendarScopes.CALENDAR_READONLY);
+	private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
 
 	static {
 		try {
@@ -105,7 +98,8 @@ public class GoogleCalendarEventService {
 			throws IOException {
 		Credential credential = authorize();
 		return new com.google.api.services.calendar.Calendar.Builder(
-				HTTP_TRANSPORT, JSON_FACTORY, credential).build();
+				HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName("CT Home Automation")
+				.build();
 	}
 
 	/**
@@ -133,9 +127,8 @@ public class GoogleCalendarEventService {
 
 		endOfMonth.set(Calendar.YEAR, year);
 		endOfMonth.set(Calendar.MONTH, month);
-		endOfMonth.set(Calendar.DAY_OF_MONTH,
-				endOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
-		Events events = service.events().list("primary")
+		endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Events events = service.events().list(PRIMARY_CALENDAR)
 				.setTimeMin(new DateTime(startOfMonth.getTime()))
 				.setTimeMax(new DateTime(endOfMonth.getTime()))
 				.setOrderBy("startTime").setSingleEvents(true).execute();
@@ -148,5 +141,36 @@ public class GoogleCalendarEventService {
 		}
 
 		return eventList;
+	}
+
+	public Event addCalendarEntry(String summary, String description, Date startTime, Date endTime) throws IOException {
+		com.google.api.services.calendar.Calendar service = getCalendarService();
+
+		Event event = new Event()
+				.setSummary(summary)
+				.setDescription(description);
+
+		DateTime startDateTime = new DateTime(startTime);
+		EventDateTime start = new EventDateTime()
+				.setDateTime(startDateTime)
+				.setTimeZone("Europe/Berlin");
+		event.setStart(start);
+
+		DateTime endDateTime = new DateTime(endTime);
+		EventDateTime end = new EventDateTime()
+				.setDateTime(endDateTime)
+				.setTimeZone("Europe/Berlin");
+		event.setEnd(end);
+
+		event = service.events().insert(PRIMARY_CALENDAR, event).execute();
+		LOGGER.info("Event created: {}", event.getHtmlLink());
+
+		return event;
+	}
+
+	public void removeCalendarEntry(String eventId) throws IOException {
+		com.google.api.services.calendar.Calendar service = getCalendarService();
+
+		service.events().delete(PRIMARY_CALENDAR, eventId).execute();
 	}
 }
